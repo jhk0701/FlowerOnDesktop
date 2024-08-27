@@ -26,6 +26,11 @@ public class Virus : MonoBehaviour
         }
     }
 
+    private void Start()
+    {
+
+    }
+
     public void OnDamage(float val)
     {
         pHp -= val;
