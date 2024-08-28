@@ -3,27 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Flower : MonoBehaviour
+public class Flower : AbstractUnit
 {
-    float _maxHp = 100f;
-    float _hp = 0f;
-
-    int _level = 1;
-    float _maxExp = 100f;
-    float _exp = 0f;
-
     public float pHp
     {
         get { return _hp; }
         set
         {
             _hp = value;
-            if (_hp < 0f)
+            if (_hp <= 0f){
                 _hp = 0f;
+                OnDead();
+            }
 
             slHp.value = _hp / _maxHp;
         }
     }
+
     public float pExp
     {
         get { return _exp; }
@@ -50,6 +46,11 @@ public class Flower : MonoBehaviour
     [SerializeField] Slider slExp;
     [SerializeField] Text txtLv;
 
+    void OnEnable()
+    {
+        ManagerGame.instance.mFlower.AddFlower(this);
+    }
+
     private void Start()
     {
         pExp = 0f;
@@ -59,9 +60,8 @@ public class Flower : MonoBehaviour
         InvokeRepeating("Grow", 2f, 2f);
     }
 
-    void Grow()
-    {
-        Debug.Log("Grow!");
+    void Grow() {
+
         pExp += 10f;
 
         if (pExp >= _maxExp) LevelUp();
@@ -72,5 +72,14 @@ public class Flower : MonoBehaviour
         Debug.Log("Level Up!");
         pLv++;
         pExp -= _maxExp;
+    }
+
+    public override void Damage(float val){
+        pHp -= val;
+    }
+    
+    public override void OnDead()
+    {
+        ManagerGame.instance.mFlower.RemoveFlower(this);
     }
 }

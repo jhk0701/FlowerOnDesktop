@@ -1,14 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Virus : MonoBehaviour
+public class Virus : AbstractUnit
 {
-    float _maxHp = 100f;
-    float _hp = 0f;
-
     [SerializeField] Slider slHp;
+    [SerializeField] float _spd = 1f;
+    [SerializeField] float _dmg = 10f;
 
     public float pHp
     {
@@ -16,31 +16,53 @@ public class Virus : MonoBehaviour
         set
         {
             _hp = value;
-            if (_hp < 0f)
+            if (_hp <= 0f)
             {
                 _hp = 0f;
-                Dead();
+                OnDead();
             }
 
             slHp.value = _hp / _maxHp;
         }
     }
 
-    private void Start()
+    void Start()
     {
+        Vector3 initPos = ManagerGame.instance.mFlower.GetMainPosition();
+        float x = Random.Range(5f, 10f) * (Random.Range(1, 3) >= 2 ? 1f : -1f);
+        float y = Random.Range(5f, 10f) * (Random.Range(1, 3) >= 2 ? 1f : -1f);
+        initPos.x = x;
+        initPos.y = y;
 
+        transform.position = initPos;
     }
 
-    public void OnDamage(float val)
+    void Update()
+    {
+        if(ManagerGame.instance.isPlaying)
+            transform.position = Vector3.MoveTowards(transform.position, ManagerGame.instance.mFlower.GetMainPosition(), Time.deltaTime * _spd);
+    }
+
+    public override void Damage(float val)
     {
         pHp -= val;
-
     }
 
-    public void Dead()
+    public override void OnDead()
     {
-        Destroy(gameObject, 3f);
+        GetComponent<Collider2D>().enabled = false;
+        Destroy(gameObject, 1f);
     }
 
+    void OnTriggerEnter2D(Collider2D other)
+    {
+        if(other.gameObject.tag.Equals("Player")){
+            // 꽃에 데미지
+            AbstractUnit f = other.gameObject.GetComponent<AbstractUnit>();
+            f?.Damage(_dmg);
 
+            // 바이러스도 파괴
+            Damage(_maxHp);
+        }
+    }
 }

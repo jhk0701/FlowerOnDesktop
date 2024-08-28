@@ -9,11 +9,11 @@ public class VirusFactory : MonoBehaviour
 
     public void Start()
     {
-        
+        InvokeRepeating("Generate", 5f, 1f);   
     }
 
     void Generate()
     {
-
+        Instantiate(prefVirus);
     }
 }
