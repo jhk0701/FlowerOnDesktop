@@ -11,6 +11,6 @@ public abstract class AbstractUnit : MonoBehaviour
     protected float _maxExp = 100f;
     protected float _exp = 0f;
 
-    public abstract void Damage(float val);
+    public abstract void Damage(float val, GameObject o);
     public abstract void OnDead();
 }

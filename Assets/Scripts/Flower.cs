@@ -64,22 +64,21 @@ public class Flower : AbstractUnit
 
         pExp += 10f;
 
-        if (pExp >= _maxExp) LevelUp();
+        if (pExp >= _maxExp)
+            LevelUp();
     }
 
-    void LevelUp()
-    {
+    void LevelUp() {
         Debug.Log("Level Up!");
         pLv++;
         pExp -= _maxExp;
     }
 
-    public override void Damage(float val){
+    public override void Damage(float val, GameObject o){
         pHp -= val;
     }
     
-    public override void OnDead()
-    {
+    public override void OnDead() {
         ManagerGame.instance.mFlower.RemoveFlower(this);
     }
 }
