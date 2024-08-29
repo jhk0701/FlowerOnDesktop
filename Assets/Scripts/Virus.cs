@@ -63,7 +63,6 @@ public class Virus : AbstractUnit
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        
         if(other.gameObject.tag.Equals("Player")){
             AbstractUnit f = other.gameObject.GetComponent<AbstractUnit>();
             f?.Damage(_dmg, gameObject);

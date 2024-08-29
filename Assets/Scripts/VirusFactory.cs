@@ -2,14 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class VirusFactory : MonoBehaviour
-{
-
+public class VirusFactory : MonoBehaviour {
+    float _interval = 5f;
     [SerializeField] GameObject prefVirus;
 
     public void Start()
     {
-        InvokeRepeating("Generate", 5f, 1f);   
+        _interval = 5f;
+        InvokeRepeating("Generate", 5f, _interval);
+    }
+
+    public void UpdateInterval(float val){
+        _interval = val;
+        if(_interval <= 0f)
+            _interval = 0.1f;
+        
+        if(IsInvoking("Generate"))
+            CancelInvoke("Generate");
+        
+        InvokeRepeating("Generate", _interval, _interval);
     }
 
     void Generate()

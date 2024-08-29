@@ -21,7 +21,7 @@ public class ManagerGame : MonoBehaviour
     [SerializeField] Text txtTimer;
 
     int _score;
-    int pScore{
+    int pScore {
         get { return _score; }
         set {
             _score = value;
