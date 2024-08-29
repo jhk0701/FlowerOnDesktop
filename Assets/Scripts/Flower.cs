@@ -72,6 +72,8 @@ public class Flower : AbstractUnit
         Debug.Log("Level Up!");
         pLv++;
         pExp -= _maxExp;
+
+        ManagerGame.instance.AddScore(pLv * 100);
     }
 
     public override void Damage(float val, GameObject o){
