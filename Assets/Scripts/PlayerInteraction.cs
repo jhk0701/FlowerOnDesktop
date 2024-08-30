@@ -39,12 +39,14 @@ public class PlayerInteraction : MonoBehaviour
         _attackable = true;
     }
 
-    public void AddAttackDamage(float val){
+    public float AddAttackDamage(float val){
         _atkDmg += val;
+        return _atkDmg;
     }
 
-    public void AddAttackRange(float val){
+    public float AddAttackRange(float val){
         _atkRadius += val;
+        return _atkRadius;
     }
 
 }

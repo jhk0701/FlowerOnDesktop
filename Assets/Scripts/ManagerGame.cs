@@ -19,6 +19,7 @@ public class ManagerGame : MonoBehaviour
             txtTimer.text = _time.ToString("0.00");
         }
     }
+    [Space(10f)]
     [SerializeField] Text txtTimer;
 
     int _score;
@@ -35,18 +36,23 @@ public class ManagerGame : MonoBehaviour
 
     [SerializeField] GameObject panelGameOver;
     [SerializeField] Text txtTotalScore;
+    [Space(10f)]
+    [SerializeField] Text txtCurDmg;
+    [SerializeField] Text txtCurRange;
+
 
     int _difficulty = 0;
+    int _diffVal = 0;
     public int pDifficulty {
         get {
-            return _difficulty;
+            return _diffVal;
         }
         set {
-            _difficulty = value;
-            if(_difficulty >= 100){
+            _diffVal = value;
+            if(_diffVal >= 100){
                 // 난이도 증가
                 MoreDifficult();
-                _difficulty = 0;
+                _diffVal = 0;
             }
         }
     }
@@ -94,5 +100,33 @@ public class ManagerGame : MonoBehaviour
 
     public void MoreDifficult(){
         mVirus.UpdateInterval(mVirus.GetInterval() - 1f);
+        _difficulty++;
+
+        Debug.Log($"More Difficult. {_difficulty}");
     }
+
+    public int GetDifficulty(){
+        return _difficulty;
+    }
+
+    public void UpgradeDmg(){
+        if(pScore < 1000)
+            return;
+        
+        pScore -= 1000;
+
+        float dmg = playerInteraction.AddAttackDamage(50f);
+        txtCurDmg.text = string.Format("Current Damage : {0}", dmg);
+    }
+
+    public void UpgradeRange(){
+        if(pScore < 1000)
+            return;
+        
+        pScore -= 1000;
+
+        float rng = playerInteraction.AddAttackRange(1f);
+        txtCurRange.text = string.Format("Current Range : {0}", rng);
+    }
+
 }

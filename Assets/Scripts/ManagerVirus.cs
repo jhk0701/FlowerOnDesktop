@@ -15,7 +15,7 @@ public class ManagerVirus : MonoBehaviour {
     public void UpdateInterval(float val){
         _interval = val;
         if(_interval <= 0f)
-            _interval = 0.1f;
+            _interval = 0.5f;
         
         if(IsInvoking("Generate"))
             CancelInvoke("Generate");
