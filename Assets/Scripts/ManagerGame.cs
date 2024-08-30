@@ -8,7 +8,8 @@ public class ManagerGame : MonoBehaviour
 {
     public static ManagerGame instance;
     public ManagerFlower mFlower;
-
+    public ManagerVirus mVirus;
+    public PlayerInteraction playerInteraction;
     float _time;
     float pTime
     {
@@ -18,6 +19,7 @@ public class ManagerGame : MonoBehaviour
             txtTimer.text = _time.ToString("0.00");
         }
     }
+    [Space(10f)]
     [SerializeField] Text txtTimer;
 
     int _score;
@@ -34,6 +36,26 @@ public class ManagerGame : MonoBehaviour
 
     [SerializeField] GameObject panelGameOver;
     [SerializeField] Text txtTotalScore;
+    [Space(10f)]
+    [SerializeField] Text txtCurDmg;
+    [SerializeField] Text txtCurRange;
+
+
+    int _difficulty = 0;
+    int _diffVal = 0;
+    public int pDifficulty {
+        get {
+            return _diffVal;
+        }
+        set {
+            _diffVal = value;
+            if(_diffVal >= 100){
+                // 난이도 증가
+                MoreDifficult();
+                _diffVal = 0;
+            }
+        }
+    }
 
 
     private void Awake()
@@ -55,6 +77,7 @@ public class ManagerGame : MonoBehaviour
 
     public void AddScore(int val){
         pScore += val;
+        pDifficulty += val / 10;
     }
 
     public void GameOver(){
@@ -70,4 +93,40 @@ public class ManagerGame : MonoBehaviour
     public void Retry(){
         SceneManager.LoadScene(0);
     }
+
+    public void AddDifficulty(){
+        pDifficulty += 50;
+    }
+
+    public void MoreDifficult(){
+        mVirus.UpdateInterval(mVirus.GetInterval() - 1f);
+        _difficulty++;
+
+        Debug.Log($"More Difficult. {_difficulty}");
+    }
+
+    public int GetDifficulty(){
+        return _difficulty;
+    }
+
+    public void UpgradeDmg(){
+        if(pScore < 1000)
+            return;
+        
+        pScore -= 1000;
+
+        float dmg = playerInteraction.AddAttackDamage(50f);
+        txtCurDmg.text = string.Format("Current Damage : {0}", dmg);
+    }
+
+    public void UpgradeRange(){
+        if(pScore < 1000)
+            return;
+        
+        pScore -= 1000;
+
+        float rng = playerInteraction.AddAttackRange(1f);
+        txtCurRange.text = string.Format("Current Range : {0}", rng);
+    }
+
 }

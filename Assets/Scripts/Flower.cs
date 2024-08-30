@@ -39,12 +39,16 @@ public class Flower : AbstractUnit
         {
             _level = value;
             txtLv.text = _level.ToString();
+
+            int lv = _level / 5;
+            srFlower.sprite = Resources.Load<Sprite>($"Img/Flower/grow-{lv}");
         }
     }
 
     [SerializeField] Slider slHp;
     [SerializeField] Slider slExp;
     [SerializeField] Text txtLv;
+    [SerializeField] SpriteRenderer srFlower;
 
     void OnEnable()
     {

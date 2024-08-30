@@ -30,6 +30,8 @@ public class Virus : AbstractUnit
 
     void Start()
     {
+        _maxHp = _maxHp + ManagerGame.instance.pDifficulty;
+        _maxHp += ManagerGame.instance.GetDifficulty() * 50f;
         pHp = _maxHp;
 
         Vector3 initPos = ManagerGame.instance.mFlower.GetMainPosition();
