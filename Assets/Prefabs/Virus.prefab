@@ -124,6 +124,7 @@ MonoBehaviour:
   slHp: {fileID: 1885325419432826538}
   _spd: 1
   _dmg: 10
+  anim: {fileID: 6243076006538194977}
 --- !u!95 &6243076006538194977
 Animator:
   serializedVersion: 5
