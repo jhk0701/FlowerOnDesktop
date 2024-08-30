@@ -41,7 +41,7 @@ public class Flower : AbstractUnit
             txtLv.text = _level.ToString();
 
             int lv = _level / 5;
-            srFlower.sprite = Resources.Load<Sprite>($"/Img/Flower/grow-{lv}");
+            srFlower.sprite = Resources.Load<Sprite>($"Img/Flower/grow-{lv}");
         }
     }
 

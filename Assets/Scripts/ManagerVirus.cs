@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class VirusFactory : MonoBehaviour {
+public class ManagerVirus : MonoBehaviour {
     float _interval = 5f;
     [SerializeField] GameObject prefVirus;
 
@@ -21,6 +21,10 @@ public class VirusFactory : MonoBehaviour {
             CancelInvoke("Generate");
         
         InvokeRepeating("Generate", _interval, _interval);
+    }
+
+    public float GetInterval(){
+        return _interval;
     }
 
     void Generate()

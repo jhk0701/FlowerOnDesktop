@@ -976,6 +976,7 @@ MonoBehaviour:
   slHp: {fileID: 1981683319597422582}
   slExp: {fileID: 5710594997629085955}
   txtLv: {fileID: 7513865880025341676}
+  srFlower: {fileID: 7791764680680600183}
 --- !u!61 &5237336223188897211
 BoxCollider2D:
   m_ObjectHideFlags: 0

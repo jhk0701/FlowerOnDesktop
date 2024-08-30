@@ -8,7 +8,8 @@ public class ManagerGame : MonoBehaviour
 {
     public static ManagerGame instance;
     public ManagerFlower mFlower;
-
+    public ManagerVirus mVirus;
+    public PlayerInteraction playerInteraction;
     float _time;
     float pTime
     {
@@ -35,6 +36,21 @@ public class ManagerGame : MonoBehaviour
     [SerializeField] GameObject panelGameOver;
     [SerializeField] Text txtTotalScore;
 
+    int _difficulty = 0;
+    public int pDifficulty {
+        get {
+            return _difficulty;
+        }
+        set {
+            _difficulty = value;
+            if(_difficulty >= 100){
+                // 난이도 증가
+                MoreDifficult();
+                _difficulty = 0;
+            }
+        }
+    }
+
 
     private void Awake()
     {
@@ -55,6 +71,7 @@ public class ManagerGame : MonoBehaviour
 
     public void AddScore(int val){
         pScore += val;
+        pDifficulty += val / 10;
     }
 
     public void GameOver(){
@@ -69,5 +86,13 @@ public class ManagerGame : MonoBehaviour
 
     public void Retry(){
         SceneManager.LoadScene(0);
+    }
+
+    public void AddDifficulty(){
+        pDifficulty += 50;
+    }
+
+    public void MoreDifficult(){
+        mVirus.UpdateInterval(mVirus.GetInterval() - 1f);
     }
 }

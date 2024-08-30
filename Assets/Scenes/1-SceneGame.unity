@@ -780,6 +780,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mFlower: {fileID: 1115175852}
+  mVirus: {fileID: 1115175851}
+  playerInteraction: {fileID: 1115175853}
   txtTimer: {fileID: 946887407}
   txtScore: {fileID: 686541045}
   isPlaying: 1

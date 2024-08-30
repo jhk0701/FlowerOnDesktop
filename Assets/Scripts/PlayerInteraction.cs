@@ -38,4 +38,13 @@ public class PlayerInteraction : MonoBehaviour
     void Reload(){
         _attackable = true;
     }
+
+    public void AddAttackDamage(float val){
+        _atkDmg += val;
+    }
+
+    public void AddAttackRange(float val){
+        _atkRadius += val;
+    }
+
 }
