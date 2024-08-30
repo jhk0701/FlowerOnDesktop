@@ -26,6 +26,8 @@ public class Virus : AbstractUnit
         }
     }
 
+    [SerializeField] Animator anim;
+
     void Start()
     {
         pHp = _maxHp;
@@ -37,6 +39,8 @@ public class Virus : AbstractUnit
         initPos.y = y;
 
         transform.position = initPos;
+
+        if(!anim) anim = GetComponent<Animator>();
     }
 
     void Update()
@@ -58,12 +62,12 @@ public class Virus : AbstractUnit
     public override void OnDead()
     {
         GetComponent<Collider2D>().enabled = false;
+        anim.SetBool("isDead", true);
         Destroy(gameObject, 1f);
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        
         if(other.gameObject.tag.Equals("Player")){
             AbstractUnit f = other.gameObject.GetComponent<AbstractUnit>();
             f?.Damage(_dmg, gameObject);
