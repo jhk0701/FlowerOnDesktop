@@ -63,7 +63,6 @@ public class Virus : AbstractUnit
     {
         GetComponent<Collider2D>().enabled = false;
         anim.SetBool("isDead", true);
-
         Destroy(gameObject, 1f);
     }
 
