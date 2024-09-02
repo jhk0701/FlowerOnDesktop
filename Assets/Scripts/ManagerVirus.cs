@@ -5,6 +5,7 @@ using UnityEngine;
 public class ManagerVirus : MonoBehaviour {
     float _interval = 5f;
     [SerializeField] GameObject prefVirus;
+    [SerializeField] GameObject prefGold;
 
     public void Start()
     {
@@ -29,6 +30,10 @@ public class ManagerVirus : MonoBehaviour {
 
     void Generate()
     {
-        Instantiate(prefVirus);
+        int r = Random.Range(1, 101);
+        if(r <= 10)
+            Instantiate(prefGold);
+        else
+            Instantiate(prefVirus);
     }
 }

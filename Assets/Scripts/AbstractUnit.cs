@@ -11,6 +11,12 @@ public abstract class AbstractUnit : MonoBehaviour
     protected float _maxExp = 100f;
     protected float _exp = 0f;
 
+    public enum Type : int {
+        normal = 0,
+        gold = 1
+    }
+    public Type type;
+
     public abstract void Damage(float val, GameObject o);
     public abstract void OnDead();
 }
