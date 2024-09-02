@@ -57,7 +57,10 @@ public class Virus : AbstractUnit
     {
         pHp -= val;
         if(pHp <= 0f && o.tag.Equals("Player")){
-            ManagerGame.instance.AddScore(Random.Range(10, 30));
+            if (type.Equals(Type.normal))
+                ManagerGame.instance.AddScore(Random.Range(10, 30));
+            else if (type.Equals(Type.gold))
+                ManagerGame.instance.AddScore(Random.Range(800, 1200));
         }
     }
 

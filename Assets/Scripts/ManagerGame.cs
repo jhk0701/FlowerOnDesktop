@@ -32,6 +32,18 @@ public class ManagerGame : MonoBehaviour
     }
     [SerializeField] Text txtScore;
 
+    int _gold {get; set;}
+    int pGold{
+        get { return _gold; }
+        set {
+            _gold = value;
+            txtGold.text = _gold.ToString();
+        }
+    }
+    [SerializeField] Text txtGold;
+    [SerializeField] Text txtBestScoreLabel;
+    [SerializeField] Text txtBestScore;
+
     public bool isPlaying = true;
 
     [SerializeField] GameObject panelGameOver;
@@ -39,6 +51,7 @@ public class ManagerGame : MonoBehaviour
     [Space(10f)]
     [SerializeField] Text txtCurDmg;
     [SerializeField] Text txtCurRange;
+    [SerializeField] Text txtCurReload;
 
 
     int _difficulty = 0;
@@ -66,6 +79,7 @@ public class ManagerGame : MonoBehaviour
 
     void Start()
     {
+        Application.targetFrameRate = 60;
         Time.timeScale = 1f;
         isPlaying = true;
     }
@@ -77,17 +91,33 @@ public class ManagerGame : MonoBehaviour
 
     public void AddScore(int val){
         pScore += val;
+        pGold += val;
         pDifficulty += val / 10;
     }
 
     public void GameOver(){
+        Debug.Log("Game Over");
+        
         Time.timeScale = 0f;
         isPlaying = false;
 
         panelGameOver.SetActive(true);
-        txtTotalScore.text = (pScore + pTime).ToString("0.00");
-        
-        Debug.Log("Game Over");
+
+        float bestScore = PlayerPrefs.HasKey("BestScore") ? PlayerPrefs.GetFloat("BestScore") : 0f;
+        float curScore = pScore + pTime;
+
+        if(bestScore < curScore){ // 갱신
+            txtBestScoreLabel.text = "신기록이에요!";
+            txtBestScore.text = curScore.ToString("0.00");
+
+            PlayerPrefs.SetFloat("BestScore", curScore);
+        }
+        else{
+            txtBestScoreLabel.text = "최고 점수";
+            txtBestScore.text = bestScore.ToString("0.00");
+        }
+
+        txtTotalScore.text = curScore.ToString("0.00");
     }
 
     public void Retry(){
@@ -110,23 +140,33 @@ public class ManagerGame : MonoBehaviour
     }
 
     public void UpgradeDmg(){
-        if(pScore < 1000)
+        if(pGold < 1000)
             return;
         
-        pScore -= 1000;
+        pGold -= 1000;
 
-        float dmg = playerInteraction.AddAttackDamage(50f);
+        float dmg = playerInteraction.UpgradeAttackDamage(100f);
         txtCurDmg.text = string.Format("Current Damage : {0}", dmg);
     }
 
     public void UpgradeRange(){
-        if(pScore < 1000)
+        if(pGold < 1000)
             return;
         
-        pScore -= 1000;
+        pGold -= 1000;
 
-        float rng = playerInteraction.AddAttackRange(1f);
+        float rng = playerInteraction.UpgradeAttackRange(1f);
         txtCurRange.text = string.Format("Current Range : {0}", rng);
+    }
+
+    public void UpgradeReload(){
+        if(pGold < 1000 || playerInteraction.GetReload() <= 0.5f)
+            return;
+        
+        pGold -= 1000;
+
+        float reload = playerInteraction.UpgradeReload();
+        txtCurReload.text = string.Format("Current Reload Time : {0} sec", reload);
     }
 
 }
